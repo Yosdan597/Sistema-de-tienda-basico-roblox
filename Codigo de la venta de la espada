@@ -1,0 +1,34 @@
+local clickDetector = script.Parent.ClickDetector
+local precio = 30
+local herramientaEspada = game.Workspace:FindFirstChild("Espada") -- Cambia "Sword" por el nombre EXACTO de tu Tool
+
+local function comprarEspada(jugador)
+	if not herramientaEspada then
+		warn(" No se encontró la herramienta 'Sword' en Workspace")
+		return
+	end
+
+	local leaderstats = jugador:FindFirstChild("leaderstats")
+	if not leaderstats then return end
+
+	local dinero = leaderstats:FindFirstChild("Dinero")
+	if not dinero then return end
+
+	if dinero.Value >= precio then
+
+		dinero.Value = dinero.Value - precio
+
+		local espadaClon = herramientaEspada:Clone()
+		espadaClon.Parent = jugador.Backpack  -- ¡Va a su inventario!
+
+		print(" " .. jugador.Name .. " compró la espada por " .. precio .. " monedas.")
+		print("   Dinero restante: " .. dinero.Value)
+	else
+		print(" " .. jugador.Name .. " no tiene suficiente dinero para la espada.")
+		print("   Necesita: " .. precio .. ", Tiene: " .. dinero.Value)
+	end
+end
+
+clickDetector.MouseClick:Connect(comprarEspada)
+
+print(" Tienda - Espada lista. Precio: " .. precio)
