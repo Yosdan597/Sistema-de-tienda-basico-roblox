@@ -1,0 +1,35 @@
+local clickDetector = script.Parent.ClickDetector
+local precio = 25
+local herramientaEscudo = game.Workspace:FindFirstChild("Shield") 
+
+local function comprarEscudo(jugador)
+
+	if not herramientaEscudo then
+		warn(" No se encontró la herramienta 'Esuco' en Workspace")
+		return
+	end
+
+	local leaderstats = jugador:FindFirstChild("leaderstats")
+	if not leaderstats then return end
+
+	local dinero = leaderstats:FindFirstChild("Dinero")
+	if not dinero then return end
+
+	if dinero.Value >= precio then
+		-- 4. Restar dinero
+		dinero.Value = dinero.Value - precio
+
+		local escudoClon = herramientaEscudo:Clone()
+		escudoClon.Parent = jugador.Backpack  
+
+		print(" " .. jugador.Name .. " compró el escudo por " .. precio .. " monedas.")
+		print("   Dinero restante: " .. dinero.Value)
+	else
+		print(" " .. jugador.Name .. " no tiene suficiente dinero para el escudo.")
+		print("   Necesita: " .. precio .. ", Tiene: " .. dinero.Value)
+	end
+end
+
+clickDetector.MouseClick:Connect(comprarEspada)
+
+print(" Tienda - Escudo listo. Precio: " .. precio)
