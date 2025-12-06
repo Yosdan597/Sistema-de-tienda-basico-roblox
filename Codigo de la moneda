@@ -1,0 +1,29 @@
+local clickDetector = script.Parent.ClickDetector
+local recompensa = 5
+
+local function enClick(jugadorQueToco)
+	-- 1. Buscar las estadísticas del jugador
+	local leaderstats = jugadorQueToco:FindFirstChild("leaderstats")
+	if not leaderstats then 
+		print(" No se encontró leaderstats en", jugadorQueToco.Name)
+		return 
+	end
+
+	local dinero = leaderstats:FindFirstChild("Dinero")
+	if not dinero then
+		print(" No se encontró 'Dinero' en leaderstats")
+		return
+	end
+
+	dinero.Value = dinero.Value + recompensa
+
+	print(" " .. jugadorQueToco.Name .. " recogió una moneda.")
+	print("   Dinero total: " .. dinero.Value)
+
+	-- 5. (Opcional) Hacer desaparecer la moneda
+	script.Parent:Destroy()
+end
+
+clickDetector.MouseClick:Connect(enClick)
+
+print(" Moneda lista. Recompensa: " .. recompensa)
